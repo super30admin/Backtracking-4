@@ -1,5 +1,5 @@
 //Time Complexity-O(k^n)---> considering that we have only choice making elements in our input string and so we will
-//                          k choices to make on an average at every point in the recursion tree. 
+//                           have k choices to make on an average at every point in the recursion tree. 
 //Space Complexity-O(n) which is the temporary vector which I'm using to store all the characters between '{' & '}'
 //                      If recursive stack space is also considered then it will be O(n+h)-->'h' is height of tree.
 //Did the code execute on Leetcode? yes
