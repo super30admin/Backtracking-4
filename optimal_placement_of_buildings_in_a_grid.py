@@ -1,12 +1,10 @@
 from itertools import combinations
-from pprint import pprint
 from collections import deque
 
 
 class Solution:
     def find_min_distance(self, height, width, n):
         arr = []
-
         for r in range(height):
             for c in range(width):
                 arr.append((r, c, 0))
