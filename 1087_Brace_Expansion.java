@@ -1,7 +1,7 @@
     /*  Explanation
     # Leetcode problem link : https://leetcode.com/problems/brace-expansion/
     Time Complexity for operators : o(nlogn) .. n is the length of the string
-    Extra Space Complexity for operators : o(n) 
+    Extra Space Complexity for operators : o(n) n = length of string
     Did this code successfully run on Leetcode : NA
     Any problem you faced while coding this : No
 # Your code here along with comments explaining your approach
