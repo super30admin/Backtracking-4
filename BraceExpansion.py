@@ -1,3 +1,5 @@
+# Time Complexity - O(MN) where M is the maximum number of characters inside {} blocks and N is the number of blocks formed 
+# Space Complexity - O(N) 
 class Solution:
     def expand(self, s: str) -> List[str]:
         
