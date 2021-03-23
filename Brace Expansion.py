@@ -2,8 +2,8 @@ class Solution:
     def expand(self, s: str) -> List[str]:
         #Approach: Backtracking
         #Time Complexity: O(n)
-        #Space Complexity: O(n * l)
-        #where, n is the number of possible words, and l is the average length of a word
+        #Space Complexity: O(l)
+        #where, n is the number of possible words, and l is the length of the string s
         
         self.result = []
         self.backtrack(s, [], 0)
