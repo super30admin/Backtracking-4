@@ -1,0 +1,69 @@
+Optimal Placement of Buildings in a grid
+
+#tc:O(n)
+#sc: O(1)
+import itertools
+from collections import deque
+def buildOffice(height, width, n):
+    arr = []
+    for i in range(height):
+        for j in range(width):
+            arr.append((i,j,0))
+
+    ans = float("inf")
+    for points in itertools.combinations(arr,n):
+        q = deque([]); visited = set()
+        for m, n, dist in points:
+            q.append((m,n,dist))
+            visited.add((m,n))
+        distAns = 0
+        distArr = []
+        while q:
+            i, j, dist = q.popleft()
+            distAns = max(dist, distAns)
+            for x, y in ((i+1,j),(i-1,j),(i,j+1),(i,j-1)):
+                if 0<=x<height and 0<=y<width and (x,y) not in visited:
+                    q.append((x,y,dist+1))
+                    visited.add((x,y))
+        ans = min(distAns, ans)
+
+    return ans
+#Brace Expansion
+Time: O(number of slots for final word + E is number of edges) 
+Space: O(number of slots for final word)
+class Solution:
+    def expand(self, S):
+        """
+        :type S: str
+        :rtype: List[str]
+        """
+        graph = collections.defaultdict(list)
+        prev_char, capture, pos = "", False, 0
+        for char in S:
+            if char == "{":
+                chars, capture = [], True
+            elif char == "}":
+                chars.sort()
+                graph[pos] += (chars)
+                pos += 1
+                prev_chars = "".join(chars)
+                capture = False
+            if capture: 
+                if char not in "{},":
+                    chars.append(char)
+            elif char not in "{},":
+                graph[pos].append(char)
+                prev_char = char
+                pos += 1
+          
+        self.res = []
+        self.dfs("", graph, 0)
+        return self.res
+        
+    def dfs(self, path, graph, idx):
+        if len(path) == len(graph):
+            self.res.append(path)
+            return 
+        for char in graph[idx]:
+            self.dfs(path + char, graph, idx + 1)
+        
