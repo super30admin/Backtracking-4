@@ -1,0 +1,66 @@
+//TimeComplexity.   n^k
+//SpaceComplexity.  O(nk)
+
+class Solution {
+    List<String> result = new ArrayList<>();
+    public String[] expand(String s) {
+        
+        
+        //first covert string to lists in list
+        List<List<Character>> list1 = new ArrayList<>();
+        
+        int idx = 0;
+        int len = s.length();
+        int i = 0;
+        
+        while(i < len){
+            char c = s.charAt(i);
+            List<Character> list2 = new ArrayList<>();
+            if(c == '{'){
+                i++;
+                while(s.charAt(i) != '}'){
+                    if(s.charAt(i) != ','){
+                        list2.add(s.charAt(i));
+                    }
+                    i++;
+                }
+            }else{
+                list2.add(s.charAt(i));
+            }
+            i++;
+            list1.add(list2);
+        }
+        helper(list1,0,new StringBuilder());
+        
+        String[] str = new String[result.size()];
+        
+        for(int k = 0; k < str.length; k++ ){
+            str[k] = result.get(k);
+        }
+        Arrays.sort(str);
+        return str;
+    }
+    
+    public void helper(List<List<Character>> list, int idx, StringBuilder sb){
+        //base
+        if(idx == list.size()){
+            result.add(sb.toString());
+            return;
+        }
+        
+        //logic
+        List<Character> block = list.get(idx);
+        //action
+        
+        for(int i = 0; i < block.size(); i++){
+            
+            char c = block.get(i);
+            sb.append(c);
+            //recurse
+            helper(list,idx+1,sb);
+            sb.setLength(sb.length()-1);
+        }   
+        //backtrack
+        
+    }
+}

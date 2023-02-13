@@ -1,0 +1,98 @@
+//TimeComplexity   HW(C)n*HW
+//SpaceComplexity. HW
+
+// Online Java Compiler
+// Use this editor to write, compile and run your Java code online
+import java.io.*;
+import java.util.LinkedList;
+import java.util.Queue;
+
+class HelloWorld {
+    public static void main(String[] args) {
+       
+        Building building = new Building();
+        System.out.println(building.findDistance(4,4,3));
+    }
+    public static class Building{
+        int minDist = Integer.MAX_VALUE;
+        
+        public int findDistance(int H, int W, int n){
+            
+            int[][] grid = new int[H][W];
+            
+            for(int i = 0 ; i <H; i++){
+                for(int j = 0; j < W; j++){
+                    grid[i][j] = -1;
+                }
+            }
+            
+            backtrack(grid,0,0,H,W,n);
+          
+            return minDist;
+        }
+        
+        public void bfs(int[][] grid, int H, int W){
+            
+            Queue<int[]> q = new LinkedList<>();
+            
+            for(int i = 0 ; i <H; i++){
+                for(int j = 0; j < W; j++){
+                  if(grid[i][j] == 0){
+                      q.add(new int[] {i,j});
+                  }
+                }
+            }
+            boolean[][] visited = new boolean[H][W];
+            int[][] dirs = new int[][] {{0,1},{1,0},{0,-1},{-1,0}};
+            int dist = 0;
+            while(!q.isEmpty()){
+                int size = q.size();
+                
+                for(int i = 0 ; i <size; i++){
+                    
+                     int[] curr = q.poll();
+                     for(int[] dir : dirs){
+                         int r = curr[0] + dir[0];
+                         int c = curr[1] + dir[1];
+                         
+                       //bound check
+                       
+                       if(r >=0 && c >= 0 && r < H && c < W && !visited[r][c] ){
+                           q.add(new int[] {r,c});
+                           visited[r][c] = true;
+                       }
+                     }
+                     
+                }
+               dist++;
+            }
+            minDist = Math.min(minDist, dist-1);
+        }
+        
+        public void backtrack(int[][] grid, int r, int c, int H, int W, int n){
+            //base
+            if(n == 0){
+                bfs(grid,H,W);
+                return;
+            }
+            if(c ==W){
+                r++;
+                c = 0;
+            }
+            //logic
+            for(int i = r; i < H; i++){
+                for(int j = c; j <W; j++){
+                    
+                    //action
+                    grid[i][j] = 0;
+                    //recurse
+                    backtrack(grid,i,j+1,H,W,n-1);
+                    //backtrack
+                    grid[i][j] = -1;
+                }
+                c = 0;
+            }
+            
+        }
+    }
+}
