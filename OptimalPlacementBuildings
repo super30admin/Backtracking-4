@@ -1,0 +1,82 @@
+T.c --> O(HW * (HW)P(n))
+S --> O(HW)
+
+public class Main {
+    private static class BuildingPlacement{
+        int min, H, W, n;
+        int[][] grid;
+        public BuildingPlacement(int H, int W, int n){
+            this.H = H;
+            this.W = W;
+            this.n = n;
+            this.min = Integer.MAX_VALUE;
+            this.grid = new int[H][W];
+        }
+        private void getDistance(){
+            Queue<int[]> q = new LinkedList<>();
+            boolean[][] visited = new boolean[H][W];
+            int[][] dirs = {{-1,0},{1,0},{0,-1},{0,1}};//u,D,L,R
+            for(int i =0; i<H; i++){
+                for(int j =0; j<W; j++){
+                    if(grid[i][j] == 0){
+                        q.add(new int[]{i,j});
+                        visited[i][j] = true;
+                    }
+                }
+            }
+            int directions = 0;
+            while(!q.isEmpty()){
+                int size = q.size();
+                for(int i =0; i<size; i++){
+                    int[] curr = q.poll();
+                    for(int[] dir: dirs){
+                        int nr = curr[0]+dir[0];
+                        int nc = curr[1]+dir[1];
+                        if(nr >=0 && nr < H && nc >=0 && nc < W && visited[nr][nc] == false){
+                            q.add(new int[]{nr,nc});
+                            visited[nr][nc] = true;
+                        }
+                    }
+                }
+                directions++;
+            }
+            min = Math.min(min,directions-1);
+        }
+        
+        private void backtrack(int row, int col, int n){
+            //base
+            if(n == 0){
+                getDistance();
+                return;
+            }
+            if(col == W){                
+                col =0;
+                row++;
+            }
+            for(int i =row; i<H; i++){
+                for(int j =col; j<W; j++){
+                   //action
+                   grid[i][j] = 0;
+                   //recurse
+                   backtrack(row,col+1,n-1);
+                   //backtrack
+                   grid[i][j] = -1;
+                }
+                col = 0;
+            }  
+        }
+        public int findMinDistance(){
+            for(int i =0; i<H; i++){
+               for(int j =0; j<W; j++){
+                  grid[i][j] = -1;  
+               } 
+            }
+            backtrack(0,0,n);
+            return min;
+        }
+    } 
+    public static void main(String[] args) {
+        BuildingPlacement bp = new BuildingPlacement(4,5,2);
+        System.out.println(bp.findMinDistance());
+    }
+}
