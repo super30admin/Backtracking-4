@@ -1,0 +1,69 @@
+// Time Complexity :O(k^n/k)
+// Space Complexity :O(k^n/k)
+// Did this code successfully run on Leetcode :yes
+// Any problem you faced while coding this :no
+// Your code here along with comments explaining your approach:
+
+// "static void main" must be defined in a public class.
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("Hello World!");
+        String s = "a{b,c}";
+        Solution st=new Solution();
+        st.bracketExpansion(s);
+    }
+}
+
+ class Solution {
+    /**
+     * @param s: A string
+     * @return: All words that can be formed
+     */
+     List<String> result=new ArrayList<>();
+    public String[] bracketExpansion(String s) {
+        // write your code here
+        List<List<Character>> groups=new ArrayList<>();//to form groups among all inside bracket and outside bracket characters
+        int i=0;
+        while(i<s.length()){//O(n)
+            char ch=s.charAt(i);
+           List<Character> group=new ArrayList<>();
+             if(ch == '{'){// { starts
+                i++;
+                 while (s.charAt(i) != '}') {
+        if (s.charAt(i) != ',') {
+                     group.add(s.charAt(i));
+                 }
+                 i++;
+                }
+            }else{
+               group.add(ch);
+            }
+            i++;
+            Collections.sort(group);
+            groups.add(group);
+        }
+        StringBuilder st=new StringBuilder();
+       backtrack(groups,0,st,result,s);//exploring all possibilities
+        String[] stA=new String[result.size()];
+        for(int k=0;k<stA.length;k++){//inserting in string array
+            stA[k]=result.get(k);
+        }
+        System.out.println(""+Arrays.toString(stA));
+        return stA;
+    }
+     public void  backtrack(List<List<Character>> groups,int idx,StringBuilder st,List<String> result,String s){
+         //base
+         if(groups.size() == idx){//ifit reaches groupes length
+             result.add(new String(st));//adding path to result list
+             return;
+         }
+         //logic
+         List<Character> group=groups.get(idx);
+         for(int j=0;j<group.size();j++){
+             int l=st.length();
+             st.append(group.get(j));
+             backtrack(groups,idx+1,st,result,s);
+             st.setLength(l);
+         }
+     }
+}
